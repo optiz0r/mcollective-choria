@@ -148,6 +148,13 @@ Examples:
                           :required => false,
                           :default => 1,
                           :type => Integer
+
+        self.class.option :__task_timeout,
+                          :arguments => ["--task-timeout SECONDS"],
+                          :description => "Time to wait for all results before detaching and letting tasks continue to run in the background",
+                          :required => false,
+                          :default => nil,
+                          :type => Integer
       end
 
       def say(msg="")
@@ -181,6 +188,7 @@ Examples:
         }
 
         request[:input] = input.to_json if input
+        request[:task_timeout] = configuration[:__task_timeout] if configuration[:__task_timeout]
 
         if configuration[:__background]
           puts("Starting task %s in the background" % [Util.colorize(:bold, task)])
@@ -199,9 +207,10 @@ Examples:
             puts("Request detailed status for the task using 'mco tasks status %s'" % [Util.colorize(:bold, bolt_tasks.stats.requestid)])
           end
         else
+          task_timeout = configuration[:__task_timeout] || bolt_tasks.ddl.meta[:timeout]
           say("Running task %s and waiting up to %s seconds for it to complete" % [
             Util.colorize(:bold, task),
-            Util.colorize(:bold, bolt_tasks.ddl.meta[:timeout])
+            Util.colorize(:bold, task_timeout)
           ])
 
           request_and_report(:run_and_wait, request)

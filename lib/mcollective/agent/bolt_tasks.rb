@@ -48,6 +48,10 @@ module MCollective
 
         status = nil
 
+        if request[:task_timeout]
+          timeout = request[:task_timeout]
+        end
+
         # Wait for near the timeout and on timeout give up and fetch the
         # status so users can get good replies that include how things are
         # near timeout

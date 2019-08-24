@@ -101,6 +101,13 @@
           "optional": false,
           "validation": "^.+$",
           "maxlength": 102400
+        },
+        "task_timeout": {
+          "prompt": "Task Timeout",
+          "description": "The number of seconds the client should wait before returning results while tasks continue in background",
+          "type": "integer",
+          "default": null,
+          "optional": true
         }
       },
       "output": {

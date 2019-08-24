@@ -77,6 +77,13 @@ action "run_and_wait", :description => "Runs a Puppet Task that was previously d
         :default     => "{}",
         :maxlength   => 102400
 
+  input :task_timeout,
+        :prompt      => "Task Timeout",
+        :description => "The number of seconds the client should wait before returning results while tasks continue in background",
+        :type        => :integer,
+        :optional    => true,
+        :default     => nil
+
   output :task_id,
          :description => "The ID the task was created with",
          :display_as  => "Task ID",
